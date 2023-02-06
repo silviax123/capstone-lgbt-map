@@ -2,7 +2,7 @@
   color: black;
 }
 
-.search {
+/* .search {
   position: absolute;
   top: 10rem;
   left: 50%;
@@ -11,7 +11,7 @@
   max-width: 400px;
   z-index: 10;
   color: black;
-}
+} */
 
 .search input {
   padding: 0.5rem;

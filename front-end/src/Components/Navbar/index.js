@@ -10,11 +10,11 @@ return (
 		<NavLink to="/about" activeStyle>
 			About
 		</NavLink>
+		<NavLink to="/blogs" activeStyle>
+			Share your story
+		</NavLink>
 		<NavLink to="/contact" activeStyle>
 			Contact Us
-		</NavLink>
-		<NavLink to="/blogs" activeStyle>
-			Blogs
 		</NavLink>
 		<NavLink to="/register" activeStyle>
 			Register
