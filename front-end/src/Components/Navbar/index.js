@@ -16,8 +16,8 @@ return (
 		<NavLink to="/contact" activeStyle>
 			Contact Us
 		</NavLink>
-		<NavLink to="/register" activeStyle>
-			Register
+		<NavLink to="/signin" activeStyle>
+			Sign In
 		</NavLink>
 		</NavMenu>
 	</Nav>

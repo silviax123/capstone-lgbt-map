@@ -1,5 +1,5 @@
 import './App.css';
-import Register from './Components/register';
+// import Register from './Components/register';
 import Navbar from './Components/Navbar';
 import { BrowserRouter as Router, Routes, Route}
     from 'react-router-dom';
@@ -7,6 +7,7 @@ import Home from './pages';
 import About from './pages/about';
 import Blogs from './pages/blogs';
 import Contact from './pages/contact';
+import SignIn from './pages/signin';
 
 function App() {
   return (
@@ -18,11 +19,10 @@ function App() {
         <Route path='/about' element={<About/>} />
         <Route path='/contact' element={<Contact/>} />
         <Route path='/blogs' element={<Blogs/>} />
-        <Route path='/register' element={<Register/>} />
+        <Route path='/signin' element={<SignIn/>} />
+        
       </Routes>
       </Router>
-
-      
     </main>
   );
 }
