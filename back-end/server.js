@@ -1,80 +1,82 @@
-const client = require('./connection.js')
 const express = require('express');
-
 const app = express();
+const path = require('path');
+const cors = require('cors')
+const { logger } = require('./middleware/logEvents');
+const errorHandler = require('./middleware/errorHandler');
+const PORT = process.env.PORT || 3500;
 
-app.listen(3300, ()=>{
-    console.log("Sever is now listening at port 3300");
-})
+app.use(logger)
 
-client.connect();
-
-const bodyParser = require("body-parser");
-app.use(bodyParser.json());
-
-// get all users
-app.get('/users', (req, res)=>{
-    client.query(`Select * from users`, (err, result)=>{
-        if(!err){
-            res.send(result.rows);
+// cross origin resource sharing
+const whitelist = ['https://www.google.com', 'http://127.0.0.1:5500', 'http://localhost:3500'];
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (whitelist.indexOf(origin) !== -1 || !origin) {
+            callback(null, true)
+        } else {
+            callback(new Error('not allowed by CORS'));
         }
-    });
-    client.end;
-}) 
+    },
+    optionsSuccessStatus: 200
+}
+app.use(cors(corsOptions));
 
-// // get user by id
-// app.get('/users/:id', (req, res)=>{
-//     client.query(`Select * from users where id=${req.params.id}`, (err, result)=>{
-//         if(!err){
-//             res.send(result.rows);
-//         }
-//     });
-//     client.end;
-// })
-// client.connect();
+// built-in middleware to handle urlencoded data
+// in other words, form data:  
+// ‘content-type: application/x-www-form-urlencoded’
+app.use(express.urlencoded({ extended: false }));
 
-// // add new user
-// app.post('/users', (req, res)=> {
-//     const user = req.body;
-//     let insertQuery = `insert into users(id, firstname, lastname, location) 
-//                         values(${user.id}, '${user.firstname}', '${user.lastname}', '${user.location}')`
+// built-in middleware for json 
+app.use(express.json());
 
-//     client.query(insertQuery, (err, result)=>{
-//         if(!err){
-//             res.send('Insertion was successful')
-//         }
-//         else{ console.log(err.message) }
-//     })
-//     client.end;
-// })
+//serve static files
+app.use('/', express.static(path.join(__dirname, '/public')));
+app.use('/subdir', express.static(path.join(__dirname, '/public')));
 
-// // Update User Details
-// app.put('/users/:id', (req, res)=> {
-//     let user = req.body;
-//     let updateQuery = `update users
-//                         set firstname = '${user.firstname}',
-//                         lastname = '${user.lastname}',
-//                         location = '${user.location}'
-//                         where id = ${user.id}`
+// routes
+app.use('/', require('./routes/root'));
+app.use('/subdir', require('./routes/subdir'));
+app.use('/employees', require('./routes/api/employees'))
 
-//     client.query(updateQuery, (err, result)=>{
-//         if(!err){
-//             res.send('Update was successful')
-//         }
-//         else{ console.log(err.message) }
-//     })
-//     client.end;
-// })
+// Route handlers
+app.get('/hello(.html)?', (req, res, next) => {
+    console.log('attempted to load hello.html');
+    next()
+}, (req, res) => {
+    res.send('Hello World!');
+});
 
-// // delete a user
-// app.delete('/users/:id', (req, res)=> {
-//     let insertQuery = `delete from users where id=${req.params.id}`
 
-//     client.query(insertQuery, (err, result)=>{
-//         if(!err){
-//             res.send('Deletion was successful')
-//         }
-//         else{ console.log(err.message) }
-//     })
-//     client.end;
-// })
+// chaining route handlers
+const one = (req, res, next) => {
+    console.log('one');
+    next();
+}
+
+const two = (req, res, next) => {
+    console.log('two');
+    next();
+}
+
+const three = (req, res) => {
+    console.log('three');
+    res.send('Finished!');
+}
+
+app.get('/chain(.html)?', [one, two, three]);
+
+app.all('*', (req, res) => {
+    res.status(404);
+    if (req.accepts('html')) {
+        res.sendFile(path.join(__dirname, 'views', '404.html'));
+    } else if (req.accepts('json')) {
+        res.json({ "error": "404 Not Found" });
+    } else {
+        res.type('txt').send("404 Not Found");
+    }
+});
+
+app.use(errorHandler)
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
