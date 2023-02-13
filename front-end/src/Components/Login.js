@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect, useContext }from 'react';
 import AuthContext from '../context/AuthProvider';
 import axios from '../api/axios';
-import { tr } from 'date-fns/locale';
 
 const LOGIN_URL = '/auth';
 
@@ -40,8 +39,8 @@ const Login = () => {
             console.log(JSON.stringify(response?.data));
             // console.log(JSON.stringify(response));
             const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ user, pwd, roles, accessToken });
+            // const roles = response?.data?.roles;
+            setAuth({ user, pwd, accessToken });
             setUser('');
             setPwd('');
             setSuccess(true);
@@ -57,7 +56,7 @@ const Login = () => {
             }
             errRef.current.focus();
         }
-    }
+    } 
 
 
 
@@ -68,7 +67,7 @@ const Login = () => {
                     <h1>You are logged in!</h1>
                     <br />
                     <p>
-                        <a href="#">Go to Home</a>
+                        <a href="http://localhost:3000/blogs">Go to Home</a>
                     </p>
                 </section>
             ) : (
@@ -102,7 +101,7 @@ const Login = () => {
                 Need an Account?<br />
                 <span className="line">
                     {/*put router link here*/}
-                    <a href="#">Sign Up</a>
+                    <a href="http://localhost:3000/register">Sign Up</a>
                 </span>
             </p>
         </section>

@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import axios from './api/axios';
+import axios from '../api/axios';
 
 const USER_REGEX = /^[A-Za-z][A-Za-z0-9_]{3,23}$/;
 const PWD_REGEX = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
@@ -64,27 +64,27 @@ const Register = () => {
         }
         console.log(user, pwd)
         setSuccess(true);
-        // try {
-        //     const responese = await axios.post(REGISTER_URL,
-        //         JSON.stringify({ user, pwd }),
-        //         {
-        //             headers: { 'Content-Type': 'application/json' },
-        //             withCredentials: true
-        //         })
-        //         console.log(response.data);
-        //         console.log(response.accessToken)
-        //         console.log(JSON.stringify(response))
-        //         setSuccess(true);
-        //     } catch(err){
-        //         if (!err?.responese) {
-        //             setErrMsg('No Server Response');
-        //         } else if (err.responese?.status === 409) {
-        //             setErrMsg('Username Taken')
-        //         }else {
-        //             setErrMsg('Registrration Failed')
-        //         }
-        //         errRef.current.focus()
-        // }
+        try {
+            const response = await axios.post(REGISTER_URL,
+                JSON.stringify({ user, pwd }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                })
+                console.log(response.data);
+                console.log(response.accessToken)
+                console.log(JSON.stringify(response))
+                setSuccess(true);
+            } catch(err){
+                if (!err?.response) {
+                    setErrMsg('No Server Response');
+                } else if (err.responese?.status === 409) {
+                    setErrMsg('Username Taken')
+                }else {
+                    setErrMsg('Registrration Failed')
+                }
+                errRef.current.focus()
+        }
     } 
 
     return (
@@ -93,7 +93,7 @@ const Register = () => {
                 <section>
                     <h1>Success!</h1>
                     <p>
-                        <a href="#">Sign In</a>
+                        <a href="http://localhost:3000/signin">Sign In</a>
                     </p>
                 </section>
             ) : (
@@ -171,7 +171,7 @@ const Register = () => {
                         <label htmlFor="confirm_pwd">
                             Confirm Password:
                             <span className={validMatch && matchPwd ? "valid" : "hide"}>
-                                <FontAwesomeIcon icon={faTimes} />
+                                <FontAwesomeIcon icon={faCheck} />
                             </span>
                         </label>
                         <input

@@ -7,8 +7,8 @@ return (
 	<>
 	<Nav>
 		<NavMenu>
-		<NavLink to="/about" activeStyle>
-			About
+		<NavLink to="/" activeStyle>
+			Home
 		</NavLink>
 		<NavLink to="/blogs" activeStyle>
 			Share your story

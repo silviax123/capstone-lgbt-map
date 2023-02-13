@@ -6,18 +6,21 @@
     box-sizing: border-box;
 }
 h1 {
-    color:#fff
+    color: gray
 }
+
 
 html {
     font-family: 'Nunito', sans-serif;
     font-size: 22px;
+    scroll-behavior: smooth;
     
 }
 
 body {
     min-height: 100vh;
-    background-color: dodgerblue;
+    background-image: url(../public/background.jpg);
+    background-color: lightgray;
 }
 
 .App {
