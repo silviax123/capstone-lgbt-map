@@ -1,0 +1,66 @@
+.index_wrap {
+    margin: 2rem 1rem 0rem 0.5rem;
+    background-color: rgba(245, 250, 194, 0.5);
+    position: absolute;
+}
+
+h1, h2, h3, h4 {
+    color: #034b61;
+    text-align: center;
+    margin: 2rem 12rem 2rem 12rem;
+}
+
+.intro {
+    text-align: center;
+}
+
+.eras{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 0rem 5rem 0rem 5rem;
+}
+
+.era1{
+    grid-row: 1;
+    grid-column: 1;
+    text-align: center;
+    justify-content: space-around;
+}
+
+.era2{
+    grid-row: 1;
+    grid-column: 2;
+    text-align: center;
+    justify-content: space-around;
+}
+
+.era3{
+    grid-row: 1;
+    grid-column: 3;
+    text-align: center;
+    justify-content: space-around;
+}
+.eras-container {
+    display: flex;
+    text-align: center;
+    justify-content: space-around;
+
+
+}
+
+.button-container {
+    display: flex;
+    text-align: center;
+    justify-content: space-around;
+    margin: 0rem 12rem 5rem 12rem;
+}
+
+.era1, .era2, .era3 {
+    border-radius: 7%;
+} 
+
+.container {
+    position: relative;
+
+}
